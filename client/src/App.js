@@ -1,5 +1,6 @@
 import React, { Component } from "react";
 import ParkingForm from "./components/ParkingForm/ParkingForm";
+import ParkingMain from "./components/main/ParkingMain";
 import { Route, Link } from "react-router-dom";
 import logo from "./logo.svg";
 
@@ -30,11 +31,12 @@ class App extends Component {
       <div>
         <header>
           <Link to="/">Home</Link>
-          <Link to="/about-us">About</Link>
+          <Link to="/parking-form">ParkingForm</Link>
         </header>
 
         <main>
-          <Route exact path="/" component={ParkingForm} />
+          <Route exact path="/" component={ParkingMain} />
+          <Route exact path="/parking-form" component={ParkingForm} />
         </main>
       </div>
     );
