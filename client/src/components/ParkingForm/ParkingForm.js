@@ -1,6 +1,7 @@
 import React, { Component } from "react";
 import { connect } from "react-redux";
-
+import classNames from "classnames";
+import { saveParkingForm } from "../../actions";
 class ParkingForm extends Component {
   state = {
     name: "",
@@ -10,7 +11,8 @@ class ParkingForm extends Component {
     file: "",
     imagePreviewUrl: "",
     errors: {},
-    cover: ""
+    cover: "",
+    loading: false
   };
 
   handleImage = e => {
@@ -22,6 +24,7 @@ class ParkingForm extends Component {
     reader.onloadend = () => {
       this.setState({
         file: file,
+
         imagePreviewUrl: reader.result
       });
     };
@@ -39,17 +42,21 @@ class ParkingForm extends Component {
   };
 
   handleSubmit = e => {
-    console.log(e);
     e.preventDefault();
-    let errors = {};
 
-    if (this.state.name === "") errors.name = "Can't be empty";
-    if (this.state.cover === "") errors.cover = "Can't be empty";
-    if (this.state.rateWeekly === "") errors.rateWeekly = "Can't be empty";
-    if (this.state.rateWekend === "") errors.rateWekend = "Can't be empty";
-    if (this.state.discount === "") errors.discount = "Can't be empty";
-
-    this.setState({ errors });
+    if (true) {
+      const { name, cover, rateWeekly, rateWekend, discount } = this.state;
+      this.setState({ loading: true });
+      this.props
+        .saveParkingForm({ name, cover, rateWeekly, rateWekend, discount })
+        .then(
+          () => {},
+          err =>
+            err.response
+              .json()
+              .then(({ errors }) => this.setState({ errors, loading: false }))
+        );
+    }
   };
 
   onCancle = () => {};
@@ -67,9 +74,19 @@ class ParkingForm extends Component {
         </div>
       );
     }
+    console.log(this.state.loading);
     return (
       <div className="container">
-        <form onSubmit={this.handleSubmit}>
+        <form
+          onSubmit={this.handleSubmit}
+          className={classNames("ui", "form", { loading: this.state.loading })}
+        >
+          <h1>Add new </h1>
+          {!!this.state.errors.global && (
+            <div className="ui negative message">
+              <p>{this.state.errors.global}</p>
+            </div>
+          )}
           <div className="row">
             <div className="col-3">
               <div className="area-image">
@@ -135,10 +152,7 @@ class ParkingForm extends Component {
   }
 }
 
-function mapStateToProps(state) {
-  return {
-    area: state.area
-  };
-}
-
-export default connect(mapStateToProps)(ParkingForm);
+export default connect(
+  null,
+  { saveParkingForm }
+)(ParkingForm);

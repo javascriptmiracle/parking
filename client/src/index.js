@@ -5,7 +5,7 @@ import { ConnectedRouter } from "connected-react-router";
 import store, { history } from "./store/store";
 
 import App from "./App";
-import registerServiceWorker from "./registerServiceWorker";
+
 const target = document.querySelector("#root");
 render(
   <Provider store={store}>
@@ -17,4 +17,3 @@ render(
   </Provider>,
   target
 );
-registerServiceWorker();

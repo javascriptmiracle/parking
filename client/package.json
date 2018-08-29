@@ -2,8 +2,9 @@
   "name": "parking",
   "version": "0.1.0",
   "private": true,
-  "proxy": "http://localhost:5000/",
+  "proxy": "http://localhost:5001",
   "dependencies": {
+    "classnames": "^2.2.6",
     "connected-react-router": "^4.4.1",
     "history": "^4.7.2",
     "react": "^16.4.2",
